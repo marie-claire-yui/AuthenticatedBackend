@@ -23,15 +23,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name="users") 
 public class ApplicationUser implements UserDetails {
 
-   
-
     @Id
     @GeneratedValue(strategy=(GenerationType.AUTO))
-    @Column(name="user_id")
+    // @Column(name="user_id")
     private Integer userId;
-
+    @Column(unique=true)
     private String username;
-
     private String password;
 
     @ManyToMany(fetch=(FetchType.EAGER))
