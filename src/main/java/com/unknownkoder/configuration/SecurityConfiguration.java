@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -69,7 +70,7 @@ public class SecurityConfiguration {
     @Bean
     public JwtEncoder jwtEncoder(){
         JWK jwk = new RSAKey.Builder(keys.getPublicKey()).privateKey(keys.getPrivateKey()).build();
-        JWKSource<SecurityContext> jwks = new JWKSource<>(new JWKSet(jwk));
+        JWKSource<SecurityContext> jwks = new ImmutableJSKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
 
