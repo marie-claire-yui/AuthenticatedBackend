@@ -8,9 +8,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContext;
+// import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -43,6 +44,10 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+//     @Bean
+// public PasswordEncoder passwordEncoder() {
+//     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+// }
 
     @Bean
     public AuthenticationManager authManager(UserDetailsService detailsService){
@@ -58,7 +63,7 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> {
                 // auth.requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll();
-                auth.antMatchers("/auth/**").permitAll();
+                auth.requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll();
                 auth.anyRequest().authenticated();
             })
             // .httpBasic().and()
